@@ -1,0 +1,430 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Distraction</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/Images/CDBlack.png" />
+
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/CSS/Site.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+</head>
+<body background="/Images/6a5cafe7.png">
+    <div class="jumbotron">
+        <div class="container" style="text-align: center">
+            <a href="Pages/Home.html">
+                <img src="/Images/CurrentDistractionWhite.png" style="width:65%;" />
+            </a>
+        </div>
+    </div>
+
+    <div class="navbar hidden-xs">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="pages/News.html">News</a></li>
+                    <li><a href="pages/Reviews.html">Reviews</a></li>
+                    <li><a href="pages/Articles.html">Articles</a></li>
+                    <li><a href="pages/NewMusic.html">New Music</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row main-content" id="main-content"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="row side-content" id="side-content"></div>
+            </div>
+
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; 2016</p>
+        </footer>
+    </div>
+
+    <script>
+        function loadPage(pageName) {
+            $('.page').each(function (i, obj) {
+                obj.remove();
+            })
+
+            loadSpecificMainContent(pageName, pages);
+        }
+
+        var pages;
+        var numContent = -1;
+
+        var request = new XMLHttpRequest();
+        request.open("GET", "/Pages.json", true);
+        request.send();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                pages = JSON.parse(request.responseText).pages;
+                pages.sort(sort_by('date', true, parseInt));
+            }
+
+            loadMainContent(pages);
+            loadSideContent(pages);
+        }
+
+        //window.onload = load;
+
+        function load() {
+            loadMainContent(pages);
+            loadSideContent(pages);
+        }
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                $(window).scrollTop($(window).scrollTop() - 1);
+                loadMainContent(pages);
+            }
+        });
+
+
+        var sort_by = function (field, reverse, primer) {
+
+            var key = primer ?
+                function (x) { return primer(x[field]) } :
+                function (x) { return x[field] };
+
+            reverse = !reverse ? 1 : -1;
+
+            return function (a, b) {
+                return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            }
+        }
+
+        function loadMainContent(arr) {
+            var out = "";
+            if (arr != null && numContent < arr.length - 1) {
+                numContent++;
+                out += '<div id="' + arr[numContent].name + '" class="col-md-12 page"">' +
+                           '<div class="col-md-12">' +
+                               '<div class="well hidden-xs">' +
+                                   '<div class="headLine">' +
+                                       '<h1>' + arr[numContent].headline + '</h1>' +
+                                       '<div class="row">' +
+                                           '<div class="author col-md-6">' + arr[numContent].author +
+                                           '</div>' +
+                                           '<div class="date col-md-6">' + arr[numContent].date.substring(4, 6) + '/' +
+                                                                           arr[numContent].date.substring(6, 8) + '/' +
+                                                                           arr[numContent].date.substring(0, 4) + ' ' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                                   '<div class="image">' +
+                                       '<img src="' + arr[numContent].image + '" />' +
+                                   '</div>' +
+                                   '<div class="blurb">' +
+                                       '<p>' + arr[numContent].blurb + '</p>' +
+                                   '</div>' +
+                                   '<div class="extraMedia embed-responsive embed-responsive-16by9">' +
+                                       arr[numContent].extramedia +
+                                   '</div>' +
+                               '</div>' +
+                               '<div class="well mobileWell visible-xs">' +
+                                   '<div class="headLine">' +
+                                       '<h1>' + arr[numContent].headline + '</h1>' +
+                                       '<div class="row">' +
+                                           '<div class="author col-md-6">' + arr[numContent].author +
+                                           '</div>' +
+                                           '<div class="date col-md-6">' + arr[numContent].date.substring(4, 6) + '/' +
+                                                                           arr[numContent].date.substring(6, 8) + '/' +
+                                                                           arr[numContent].date.substring(0, 4) + ' ' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                                   '<div class="image">' +
+                                       '<img src="' + arr[numContent].image + '" />' +
+                                   '</div>' +
+                                   '<div class="blurb">' +
+                                       '<p>' + arr[numContent].blurb + '</p>' +
+                                   '</div>' +
+                                   '<div class="extraMedia embed-responsive embed-responsive-16by9">' +
+                                       arr[numContent].extramedia +
+                                   '</div>' +
+                               '</div>' +
+                           '</div>' +
+                       '</div>'
+            }
+            $('#main-content').append(out);
+
+            $('.extraMedia').each(function (i, obj) {
+                if (!obj.hasChildNodes()) {
+                    obj.style.display = 'none';
+                }
+            })
+        }
+
+        function findIndexByKeyValue(obj, key, value) {
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i][key] == value) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        function loadSpecificMainContent(pageName, arr) {
+            var pageNum = findIndexByKeyValue(arr, 'name', pageName);
+            var out = "";
+            numContent = pageNum;
+            if (arr != null) {
+                out += '<div id="' + arr[pageNum].name + '" class="col-md-12 page"">' +
+                           '<div class="col-md-12">' +
+                               '<div class="well hidden-xs">' +
+                                   '<div class="headLine">' +
+                                       '<h1>' + arr[pageNum].headline + '</h1>' +
+                                       '<div class="row">' +
+                                           '<div class="author col-md-6">' + arr[pageNum].author +
+                                           '</div>' +
+                                           '<div class="date col-md-6">' + arr[pageNum].date.substring(4, 6) + '/' +
+                                                                           arr[pageNum].date.substring(6, 8) + '/' +
+                                                                           arr[pageNum].date.substring(0, 4) + ' ' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                                   '<div class="image">' +
+                                       '<img src="' + arr[pageNum].image + '" />' +
+                                   '</div>' +
+                                   '<div class="blurb">' +
+                                       '<p>' + arr[pageNum].blurb + '</p>' +
+                                   '</div>' +
+                                   '<div class="extraMedia embed-responsive embed-responsive-16by9">' +
+                                       arr[pageNum].extramedia +
+                                   '</div>' +
+                               '</div>' +
+                               '<div class="well mobileWell visible-xs">' +
+                                   '<div class="headLine">' +
+                                       '<h1>' + arr[pageNum].headline + '</h1>' +
+                                       '<div class="row">' +
+                                           '<div class="author col-md-6">' + arr[pageNum].author +
+                                           '</div>' +
+                                           '<div class="date col-md-6">' + arr[pageNum].date.substring(4, 6) + '/' +
+                                                                           arr[pageNum].date.substring(6, 8) + '/' +
+                                                                           arr[pageNum].date.substring(0, 4) + ' ' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                                   '<div class="image">' +
+                                       '<img src="' + arr[pageNum].image + '" />' +
+                                   '</div>' +
+                                   '<div class="blurb">' +
+                                       '<p>' + arr[pageNum].blurb + '</p>' +
+                                   '</div>' +
+                                   '<div class="extraMedia embed-responsive embed-responsive-16by9">' +
+                                       arr[pageNum].extramedia +
+                                   '</div>' +
+                               '</div>' +
+                           '</div>' +
+                       '</div>'
+            }
+            $('#main-content').append(out);
+
+            $('.extraMedia').each(function (i, obj) {
+                if (!obj.hasChildNodes()) {
+                    obj.style.display = 'none';
+                }
+            })
+        }
+
+        function loadSideContent(arr) {
+            var out = "";
+            var i;
+            if (arr != null) {
+                for (i = 0; i < 3 && i < arr.length; i++) {
+                    out += '<div id="' + arr[i].name + '" class="col-md-12 hidden-xs"">' +
+                                   '<div class="col-md-12">' +
+                                       '<div class="well" style="cursor: pointer;" onclick="loadPage(\'' + arr[i].name + '\')">' +
+                                           '<div class="headLine">' +
+                                                '<h3>' + arr[i].headline + '</h3>' +
+                                           '</div>' +
+                                           '<div class="image">' +
+                                                '<img src="' + arr[i].image + '" />' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                           '</div>'
+                }
+            }
+            $('#side-content').append(out);
+        }
+    </script>
+
+    <style>
+
+        div {
+            font-family: Kalinga;
+            color: #f5f5f7;
+        }
+
+            div.jumbotron {
+                background-color: rgba(0,0,0,.1);
+                padding: 1em;
+                margin-top: .5em;
+                margin-bottom: .5em;
+                /*margin-left: 8em;
+            margin-right: 8em;*/
+                border-radius: 4px;
+            }
+
+            div.navbar {
+                /*background-color: rgba(168, 209, 104, .65);*/
+                background-color: rgba(0,0,0,.35);
+                margin-left: 8em;
+                margin-right: 8em;
+            }
+
+        a {
+            color: #f5f5f7;
+            font-size: 2em;
+            font-weight: bolder;
+        }
+
+        body {
+            background-color: #effff9;
+            padding-top: 0px;
+            background-attachment: fixed;
+        }
+
+        div.content {
+            /*background-color: rgba(249, 253, 255, .35);*/
+            background-color: rgba(0,0,0,.35);
+            border-radius: 4px;
+            color: rgb(250,240,240);
+        }
+
+        div.side-content {
+            /*background-color: rgba(249, 253, 255, .35);*/
+            background-color: rgba(0,0,0,.35);
+            border-radius: 4px;
+            margin-left: 1em;
+            font-size: large;
+        }
+
+        div.main-content {
+            /*background-color: rgba(249, 253, 255, .35);*/
+            background-color: rgba(0,0,0,.35);
+            border-radius: 4px;
+            font-size: large;
+        }
+
+        div.date {
+            font-size: small;
+            text-align: right;
+        }
+
+        div.author {
+            font-size: small;
+            text-align: left;
+        }
+
+        div.well {
+            /*background-color: rgba(222, 222, 222, .35);*/
+            margin-top: 1em;
+            background-color: rgba(0,0,0,.35);
+            border: 0px;
+            padding-top: 0px;
+        }
+
+        div.mobileWell {
+            margin-top: 1em;
+            background-color: rgba(0,0,0,.35);
+            border: 0px;
+            padding-top: 0px;
+            margin-left: -2em;
+            margin-right: -2em;
+        }
+
+        div.image img {
+            width: 100%;
+        }
+
+        div.row.side-content.headLine h3 {
+            color: red;
+        }
+
+        div.headLine {
+            margin: .5em;
+            border-bottom: solid;
+            border-bottom-width: .25em;
+            padding-top: .5em;
+            margin-bottom: 2em;
+        }
+
+        div.blurb {
+            font-size: x-large;
+            margin-bottom: .5em;
+            padding-bottom: .5em;
+            margin-top: .5em;
+            padding-top: .5em;
+            border-bottom-style: solid;
+            border-top-style: solid;
+        }
+
+            div.blurb a {
+                font-family: Kalinga;
+                color: #f5f5f7;
+                font-size: x-large;
+            }
+
+        div.extraMedia {
+            text-align: center;
+        }
+
+        li.media {
+            /*padding: 1em;*/
+            /*border-top-color: #7fd3f7;*/
+            /*border-top-style: solid;*/
+            /*margin: 1em;*/
+            background-color: rgba(0,0,0,.25);
+            border: none;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .container {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .navbar .navbar-nav {
+            display: inline-block;
+            float: none;
+            vertical-align: top;
+        }
+
+        .navbar .navbar-collapse {
+            text-align: center;
+        }
+
+        footer {
+            background-color: rgba(0,0,0,.25);
+            border-radius: 4px;
+            margin: .5em;
+            padding-top: .5em;
+            padding-bottom: .5em;
+        }
+
+            footer p {
+                text-align: center;
+                margin: 0px;
+            }
+
+        .description {
+            padding-left: 4px;
+        }
+    </style>
+</body>
+</html>

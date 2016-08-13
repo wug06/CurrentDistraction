@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/Images/CDBlack.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+
+        date
+        <input id="date" />
+
+        name
+        <input id="name" />
+
+        headline
+        <input id="headline" />
+
+        image
+        <input id="image" />
+
+        blurb
+        <input id="blurb" />
+
+        extramedia
+        <input id="extramedia" />
+
+
+    <input type="button" value="Submit" onclick="saveContent()" />
+</body>
+</html>
+
+
+<script>
+    function saveContent() {
+        console.log("start Function");
+        var date = document.getElementById("date").value;
+        var name = document.getElementById("name").value;
+        var headline = document.getElementById("headline").value;
+        var image = document.getElementById("image").value;
+        var blurb = document.getElementById("blurb").value;
+        var extramedia = document.getElementById("extramedia").value;
+
+        var request = new XMLHttpRequest();
+        var jsonStr;
+        request.open("GET", "/Pages.json", true);
+        request.send();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                jsonStr = JSON.parse(request.responseText);
+
+                console.log("hello");
+
+                var newContent = ',{ ' +
+                           '"date": "' + date + '",' +
+                           '"name": "' + name + '",' +
+                           '"headline": "' + headline + '",' +
+                           '"image": "' + image + '",' +
+                           '"blurb": "' + blurb + '",' +
+                           '"extramedia":"' + extramedia + '"' +
+                           '}'
+
+                console.log(jsonStr);
+
+                console.log(newContent);
+
+
+                jsonStr['pages'].push({ "date": date, "name": name, "headline": headline, "image": image, "blurb": blurb, "extramedia": extramedia });
+            }
+        }
+    }
+</script>

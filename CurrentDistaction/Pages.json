@@ -1,0 +1,59 @@
+﻿{
+  "pages": [
+    {
+      "date": "201606101200",
+      "name": "Mitski",
+      "headline": "Mistki's <i>Puberty 2</i> Is Now Streaming",
+      "image": "/Images/Mitski/12525586_1203141869711179_3729013969516575073_o.jpg",
+      "blurb": "",
+      "extramedia": "<iframe class=\"embed-responsive-item\"src=\"http://www.npr.org/player/embed/480340979/480479367\" frameborder=\"0\" scrolling=\"no\" title=\"NPR embedded audio player\"></iframe>",
+      "author": "Alex H"
+    },
+    {
+      "date": "201606111200",
+      "name": "Angel",
+      "headline": "Angel Olsen Announces New Album <i>My Woman</i>",
+      "image": "/Images/Angel Olsen/13335818_1361778390505603_7084437050377638924_n.jpg",
+      "blurb": "Following up on her 2014 album <i>Burn Your Fire For No Witness</i>, Angel Olsen announced her new album <i>My Woman</i>, due out on September 2nd.  If the first single, <i>Intern</i>, is anything to go by, we might be seeing a more dynamic Angel.  Check out the new single below!",
+      "extramedia": "<iframe class=\"embed-responsive-item\"src=\"https://www.youtube.com/embed/r248o_rUfKE\" frameborder=\"0\" allowfullscreen></iframe>",
+      "author": "Alex H"
+    },
+    {
+      "date": "201606121200",
+      "name": "In Rainbows Streaming",
+      "headline": "<i>In Rainbows</i> Streaming After 9 Years",
+      "image": "https://upload.wikimedia.org/wikipedia/en/2/2e/In_Rainbows_Official_Cover.jpg",
+      "blurb": "",
+      "extramedia": "",
+      "author": "Alex H"
+    },
+    {
+      "date": "201606152309",
+      "name": "Phantogram You Dont Get Me High Anymore",
+      "headline": "Phantogram Release New Single <i>You Don't Get Me High Anymore</i>",
+      "image": "https://scontent-ord1-1.xx.fbcdn.net/l/t31.0-8/13305080_10153825806133742_4390662549535876162_o.jpg",
+      "blurb": "Phantogram release their new single <i>You Don't Get Me High Anymore</i> off their upcoming third album.  Check out tour dates <a href=\"http://www.phantogram.com/#tour\"> here </a>.",
+      "extramedia": "",
+      "author": "Alex H"
+    },
+    {
+      "date": "201606152310",
+      "name": "Clipping Release New EP",
+      "headline": "Clipping Release New EP <i>Wriggle</i>",
+      "image": "https://f4.bcbits.com/img/a1293675512_10.jpg",
+      "blurb": "Following Daveed Diggs' Tony win for the massive hit <i>Hamilton</i>, Clipping have released an EP called <i>Wriggle</i>.  A precursor to thier upcoming album, due to be released later this year.",
+      "extramedia": "<iframe class=\"embed-responsive-item\"src=\"https://embed.spotify.com/?uri=spotify%3Aalbum%3A2hCgbNyMtaNS84dpDN6KZY\" frameborder=\"0\" allowtransparency=\"true\"></iframe>",
+      "author": "Alex H"
+    },
+    {
+      "date": "201606222310",
+      "name": "Portishead Cover ABBA",
+      "headline": "Portishead Cover ABBA",
+      "image": "/Images/portisheadSOS.png#",
+      "blurb": "Portishead released a new music video featuring a cover of ABBA's 1975 track <i>SOS</i>.  The darker, more ominous track ends with the quote\"We have far more in common than which divides us\", attributed to the late British politician Jo Cox.",
+      "extramedia": "<iframe class=\"embed-responsive-item\"src=\"https://www.youtube.com/embed/WVe-9VWIcCo\" frameborder=\"0\" allowfullscreen></iframe>",
+      "author": "Alex H"
+    }
+
+  ]
+}
